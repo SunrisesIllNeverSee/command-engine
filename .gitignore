@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+.venv/
+.env
+.DS_Store
+data/messages.jsonl
+data/audit.jsonl
+data/runtime_state.json
+data/mcp_cursors.json
+data/starred.json
+data/lineage.json
+data/hook_errors.log
+vault/starred/
+forks/
