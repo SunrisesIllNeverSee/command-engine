@@ -12,3 +12,7 @@ data/lineage.json
 data/hook_errors.log
 vault/starred/
 forks/
+
+# Internal identity files — not for public consumption
+CLAUDE.md
+IDENTITY.md
