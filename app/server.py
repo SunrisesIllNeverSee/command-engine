@@ -2,11 +2,10 @@ from __future__ import annotations
 
 import asyncio
 import json
+import os
 import shutil
 from datetime import UTC, datetime
 from pathlib import Path
-
-import os
 
 from fastapi import FastAPI, File, Form, UploadFile, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
@@ -16,7 +15,15 @@ from fastapi.staticfiles import StaticFiles
 from .audit import AuditSpine
 from .context import ContextAssembler
 from .mcp_bridge import MCPBridge
-from .models import DeployUpdate, GovernanceUpdate, MCPReadRequest, MCPSendRequest, MessageCreate, SystemUpdate, VaultSelection
+from .models import (
+    DeployUpdate,
+    GovernanceUpdate,
+    MCPReadRequest,
+    MCPSendRequest,
+    MessageCreate,
+    SystemUpdate,
+    VaultSelection,
+)
 from .router import SequenceRouter
 from .runtime import RuntimeState
 from .store import MessageStore
@@ -203,12 +210,11 @@ def create_app(root: Path | None = None) -> FastAPI:
         content = await file.read()
         dest.write_bytes(content)
 
-        # Try to read as text for vault context
-        text_content = ""
+        # Validate file is readable (text or binary)
         try:
-            text_content = content.decode("utf-8")
+            content.decode("utf-8")
         except UnicodeDecodeError:
-            text_content = f"[Binary file: {safe_name}, {len(content)} bytes]"
+            pass  # Binary files are accepted as-is
 
         # Add to vault manifest if not already present
         manifest = runtime.vault.manifest
@@ -263,9 +269,6 @@ def create_app(root: Path | None = None) -> FastAPI:
         fork_label = payload.get("label", datetime.now(UTC).strftime("fork-%Y%m%d-%H%M%S"))
         fork_dir = root / "forks" / fork_label
         fork_dir.mkdir(parents=True, exist_ok=True)
-
-        # Snapshot current state
-        snapshot = runtime.snapshot().model_dump(mode="json")
 
         # Copy data files
         data_dir = root / "data"

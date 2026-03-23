@@ -1,10 +1,9 @@
-from pathlib import Path
 import threading
+from pathlib import Path
 
 import uvicorn
 
 from app.server import create_app
-
 
 if __name__ == "__main__":
     root = Path(__file__).resolve().parent

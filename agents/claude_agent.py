@@ -11,6 +11,7 @@ responding through the API rather than through MCP.
 """
 
 import os
+
 import httpx
 from base_agent import run_agent_loop
 

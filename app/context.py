@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from .moses_core.governance import GovernanceStateData, assemble_context
 from .models import GovernanceState, MessageRecord
+from .moses_core.governance import GovernanceStateData, assemble_context
 from .router import SequenceRouter
 
 

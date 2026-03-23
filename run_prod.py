@@ -2,13 +2,12 @@
 Production entrypoint — binds to 0.0.0.0 so the server is reachable
 inside Docker or on a VPS. For local dev, use run.py (127.0.0.1 only).
 """
-from pathlib import Path
 import threading
+from pathlib import Path
 
 import uvicorn
 
 from app.server import create_app
-
 
 if __name__ == "__main__":
     root = Path(__file__).resolve().parent

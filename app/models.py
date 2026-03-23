@@ -5,7 +5,6 @@ from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
-
 Role = Literal["primary", "secondary", "observer", "none"]
 
 

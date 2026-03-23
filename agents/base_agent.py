@@ -3,10 +3,11 @@ MO§ES™ Base Agent — shared logic for all provider agents.
 Each provider script imports this and just implements call_provider().
 """
 
-import httpx
-import time
-import sys
 import os
+import sys
+import time
+
+import httpx
 
 COMMAND = os.environ.get("COMMAND_URL", "http://localhost:8300")
 POLL_INTERVAL = int(os.environ.get("POLL_INTERVAL", "3"))
