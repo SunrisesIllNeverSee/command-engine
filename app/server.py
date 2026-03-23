@@ -6,6 +6,8 @@ import shutil
 from datetime import UTC, datetime
 from pathlib import Path
 
+import os
+
 from fastapi import FastAPI, File, Form, UploadFile, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
@@ -62,7 +64,13 @@ def create_app(root: Path | None = None) -> FastAPI:
     app.state.connection_hub = hub
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=["http://localhost:8300", "http://127.0.0.1:8300"],
+        allow_origins=[
+            o.strip()
+            for o in os.environ.get(
+                "COMMAND_ENGINE_ALLOWED_ORIGINS",
+                "http://localhost:8300,http://127.0.0.1:8300",
+            ).split(",")
+        ],
         allow_credentials=True,
         allow_methods=["GET", "POST", "DELETE"],
         allow_headers=["Content-Type", "Authorization"],

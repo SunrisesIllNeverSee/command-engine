@@ -104,9 +104,11 @@ See [CONNECT-AGENTS.md](CONNECT-AGENTS.md) for full provider setup guides (OpenA
 
 ```
 command-engine/
-├── run.py                 Entry point — starts server on port 8300
+├── run.py                 Entry point — starts server on port 8300 (localhost only)
+├── run_prod.py            Production entry point — binds 0.0.0.0 for Docker/VPS
 ├── run_mcp_stdio.py       MCP bridge entry point
-├── requirements.txt       3 dependencies: fastapi, uvicorn, mcp
+├── requirements.txt       Dependencies: fastapi, uvicorn, pydantic, mcp, httpx, anthropic
+├── pyproject.toml         Project metadata + ruff/pytest config
 ├── app/
 │   ├── server.py          FastAPI + WebSocket + REST endpoints
 │   ├── models.py          Pydantic models (governance, systems, messages, deploy)
@@ -156,6 +158,25 @@ With COMMAND:
   → Audit: Decision logged with SHA-256 hash, governance state preserved
   → Result: Transfer held pending review. Full tamper-evident trail.
 ```
+
+---
+
+## Deployment
+
+**Local (default):** `python run.py` — binds to `127.0.0.1:8300`, safe by default.
+
+**Docker / VPS:**
+```bash
+docker build -t command-engine .
+docker run -p 8300:8300 command-engine
+```
+
+**Custom allowed origins** (if you put a frontend on a different port):
+```bash
+COMMAND_ENGINE_ALLOWED_ORIGINS="http://localhost:3000" python run.py
+```
+
+> ⚠️ Internet-facing deploys require additional auth. This engine has no authentication layer by default — it is designed to run locally or behind a reverse proxy with your own auth in front of it.
 
 ---
 
