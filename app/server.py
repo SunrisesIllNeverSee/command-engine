@@ -62,10 +62,10 @@ def create_app(root: Path | None = None) -> FastAPI:
     app.state.connection_hub = hub
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=["*"],
+        allow_origins=["http://localhost:8300", "http://127.0.0.1:8300"],
         allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
+        allow_methods=["GET", "POST", "DELETE"],
+        allow_headers=["Content-Type", "Authorization"],
     )
 
     frontend_dir = root / "frontend"
