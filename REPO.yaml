@@ -1,0 +1,39 @@
+standard:
+  name: ello-repo-standard
+  version: "1.0.0"
+  mode: migrate
+
+repo:
+  name: command-engine
+  type: platform
+  lifecycle: active
+  repo_id: command_engine
+  family: moses
+  purpose: command-engine — active MO§ES runtime. Multi-AI governance console. Supersedes MOS2ES, moses-governance, Command.
+
+structure:
+  profile: platform
+  allowed_root_dirs_extra: [agents, app, frontend, vault, config, data, system-devin]
+  allowed_root_files_extra: [.dockerignore, .mcp.json, run.py, run_mcp_stdio.py, run_prod.py, CONNECT-AGENTS.md]
+  document_roots: [docs]
+  artifact_roots: [artifacts, data]
+  archive_roots: [archive, docs/archive]
+
+naming:
+  forbid_version_suffixes: true
+  forbidden_suffixes: [_final, _final2, _new, _updated, _revised, _copy]
+
+knowledge:
+  okf_enabled: true
+  okf_roots: [docs, .coord]
+  okf_severity: warn
+
+coordination:
+  micro_enabled: true
+  micro_root: .coord/micro
+  macro_enabled: true
+  macro_root: .coord/macro
+
+github:
+  ruleset_profile: solo-fast
+  required_check: repo-standard
