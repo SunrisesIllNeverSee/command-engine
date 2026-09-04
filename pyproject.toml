@@ -15,6 +15,7 @@ dependencies = [
 [tool.ruff]
 line-length = 120
 target-version = "py311"
+exclude = [".repo/scripts"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I"]
